@@ -6,6 +6,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./crew.component.css']
 })
 export class CrewComponent implements OnInit {
+  editedMember: object = null;
+  inCrew: boolean = false;
 
   crew: object[] = [
     {name: "Eileen Collins", firstMission: false},
@@ -17,5 +19,32 @@ export class CrewComponent implements OnInit {
 
   ngOnInit() {
   }
+  add(memberName: string, isFirst: boolean) {
+    for (let i=0; i < this.crew.length; i++) {
+        if(this.crew[i]['name'] === memberName) {
+            this.inCrew = true;
+        }
+    }
+    if (!this.inCrew) {
+        this.crew.push({name: memberName, firstMission: isFirst});
+    }
+    this.inCrew = false;
+  }
 
+  remove(member: object) {
+    let index = this.crew.indexOf(member);
+    this.crew.splice(index, 1);
+  }
+
+  edit(member: object) {
+    this.editedMember = member;
+  }
+
+  save(name: string, member: object) {
+    member['name'] = name;
+    this.editedMember = null;
+  }
 }
+
+
+
